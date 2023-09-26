@@ -1,13 +1,134 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: monospace;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: monospace;
+  background-image: linear-gradient( #4d98af, #a5d0de, #4d98af);
+  background-repeat: unset;
+}
+
+.loading {
+  color: white;
+  font-family: monospace;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: lightgray 2px 0 10px;
+}
+
+.header {
+  margin-top: 20px;
+  font-family: monospace;
+  font-weight: bolder;
+  font-size: 48px;
+  text-align: center;
+  text-shadow: gray 1px 0 10px;
+
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-input-box {
+  text-align: center;
+  margin-top: 40px;
+  width: 400px;
+  padding: 40px;
+  background: rgba(0,0,0,.1);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.sub-input-box {
+  display: flex;
+  justify-content: center;
+}
+
+.sub-input-box .sub-input {
+  flex: 1;
+}
+
+.tile-input-box h2 {
+  margin: 0 0 10px;
+  padding: 0;
+  color: #fff;
+  text-align: left;
+}
+
+.tile-input-box .input-box {
+}
+
+.tile-input-box .input-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  font-family: monospace;
+}
+
+.tile-input-box .input-box label {
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.tile-input-box .input-box input:focus ~ label,
+.tile-input-box .input-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.tile-input-box form a {
+  /*position: relative;*/
+  /*display: inline-block;*/
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.results-list {
+  color: #fff;
+  font-size: 24px;
+  text-align: left;
+}
+
+button {
+  font-family: monospace;
+  border: 2px white solid;
+  border-radius: 10px;
+  padding: 8px;
+  cursor: pointer;
 }
