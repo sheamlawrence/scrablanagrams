@@ -1,8 +1,8 @@
-import React, {createContext, useContext, useReducer} from "react";
+import React, {createContext, useReducer} from "react";
 import './ScrablanagramsApp.css';
-import Header from "./component/Header/Header"
-import UserInput from "./component/UserInput/UserInput"
-import AnagramResult from "./component/AnagramResult/AnagramResult";
+import Header from "./component/header/Header"
+import UserInput from "./component/user-input/UserInput"
+import AnagramResult from "./component/anagram-result/AnagramResult";
 import Dictionary, {findAnagrams} from "./component/dictionary/Dictionary"
 
 const initialState = {
