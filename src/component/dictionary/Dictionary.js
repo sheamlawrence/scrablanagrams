@@ -44,7 +44,15 @@ function initDictionary() {
     })
 }
 
-export function findAnagrams(word) {
+export function findAnagrams(word, boardTiles, matchTiles) {
+
+    // Add boardTiles to our anagram word
+    if (boardTiles && boardTiles.length > 0) {
+        word = word + boardTiles
+    }
+
+    const haveMatchTiles = matchTiles && matchTiles.length > 0
+
     const findSubs = (str) => {
         const result = [];
         for(let i = 1; i < Math.pow(2, str.length) - 1; i++)
@@ -59,7 +67,7 @@ export function findAnagrams(word) {
             if (subResult) {
                 subResult.forEach((anagram) => {
                     if (!anagrams.includes(anagram)) {
-                        anagrams.push(anagram)
+                        haveMatchTiles ? (anagram.includes(matchTiles) && anagrams.push(anagram)) : anagrams.push(anagram)
                     }
                 })
             }
@@ -69,7 +77,7 @@ export function findAnagrams(word) {
     if (fullWordResult) {
         fullWordResult.forEach((anagram) => {
             if (!anagrams.includes(anagram)) {
-                anagrams.push(anagram)
+                haveMatchTiles ? (anagram.includes(matchTiles) && anagrams.push(anagram)) : anagrams.push(anagram)
             }
         })
     }

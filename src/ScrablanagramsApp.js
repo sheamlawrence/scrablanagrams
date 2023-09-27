@@ -10,6 +10,8 @@ const initialState = {
     tileInput: '',
     dictionary: {},
     isSortByScore: true,
+    boardTiles: '',
+    matchTiles: '',
     anagramResult: []
 }
 
@@ -25,7 +27,9 @@ function reducer(state, action) {
             }
         case 'TILE_INPUT' :
             const input = action.payload.input
-            const result = findAnagrams(input)
+            const boardTiles = action.payload.boardTiles
+            const matchTiles = action.payload.matchTiles
+            const result = findAnagrams(input, boardTiles, matchTiles)
             return {
                 ...state,
                 tileInput: input,
