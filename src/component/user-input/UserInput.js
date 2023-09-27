@@ -45,10 +45,10 @@ export default function UserInput() {
             <input type='search' maxLength={20} value={tileInput}
                    onChange={(e) => handleType(e.target.value)}/>
             <h2>Board Tiles:</h2>
-            <input type='search' maxLength={20} value={boardTiles}
+            <input type='search' maxLength={10} value={boardTiles}
                    onChange={(e) => handleBoardTiles(e.target.value)}/>
             <h2>Match Tiles:</h2>
-            <input type='search' maxLength={20} value={matchTiles}
+            <input type='search' maxLength={7} value={matchTiles}
                    onChange={(e) => handleMatchTiles(e.target.value)}/>
             <div className='sub-input-box'>
                 <div className='sub-input'>
