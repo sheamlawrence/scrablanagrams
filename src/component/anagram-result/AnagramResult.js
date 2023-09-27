@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {AppContext} from '../../ScrablanagramsApp'
 import AnagramResultsSection from "./AnagramResultsSection";
+import {findAnagrams} from "../dictionary/Dictionary";
 
 const scoreMap = {
     'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2,
@@ -10,26 +11,58 @@ const scoreMap = {
 }
 
 let noDiceMsg = ''
+let results = {}
+let keys = []
+let count = 0
+
+const handleInput = (tileInput, boardTiles, matchTiles, isSortByScore, leftMatch, rightMatch) => {
+    const result = findAnagrams(tileInput, boardTiles, matchTiles, leftMatch, rightMatch)
+    count = result.length
+    results = parseResult(tileInput, result, isSortByScore)
+    keys = Object.keys(results).sort((a, b) => b - a)
+}
 
 export default function AnagramResult() {
     const {state, dispatch} = useContext(AppContext)
-    const results = parseResult(state.tileInput, state.anagramResult, state.isSortByScore)
-    const keys = Object.keys(results).sort((a, b) => b - a)
+    const isSortByScore = state.isSortByScore
+    const tileInput = state.tileInput
+    const boardTiles = state.boardTiles
+    const matchTiles = state.matchTiles
+    const leftMatch = state.leftMatch
+    const rightMatch = state.rightMatch
+    handleInput(tileInput, boardTiles, matchTiles, isSortByScore, leftMatch, rightMatch)
+
     if (keys.length > 0) {
         return (
-            <div className='results-list'>
-                <ul>
-                    {keys.map((key, i) => (
-                        <AnagramResultsSection numVal={key} words={results[key]} isScore={state.isSortByScore}/>
-                    ))}
-                </ul>
-            </div>)
+            <div>
+                <div className='result-msg'>
+                    {getMessage(count, matchTiles, leftMatch, rightMatch)}
+                </div>
+                <div className='results-list'>
+                    <ul>
+                        {keys.map((key, i) => (
+                            <AnagramResultsSection numVal={key} words={results[key]} isScore={isSortByScore}/>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        )
     } else {
         return (
             <div className='results-list'>
                 <p>{noDiceMsg}</p>
             </div>)
     }
+}
+
+function getMessage(count, matchTiles, leftMatch, rightMatch) {
+    let msg = count + ' results!\n'
+    if (matchTiles && matchTiles.length > 0 && count > 0) {
+        msg += 'Match "' + matchTiles + '" '
+            + (leftMatch && rightMatch ? 'at both ends' :
+                (leftMatch ? 'at left' : (rightMatch ? 'at right' : '')))
+    }
+    return msg
 }
 
 function parseResult(input, result, isSortByScore) {

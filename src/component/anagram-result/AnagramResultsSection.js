@@ -1,7 +1,14 @@
 import React from 'react';
-
+let keys = []
 export default function AnagramResultsSection({numVal, words, isScore}) {
-
+    const getKey = (word) => {
+        let key = word
+        while (keys.includes(key)) {
+            key = word + '-' + Math.floor(Math.random() * 100)
+        }
+        keys.push(key)
+        return key
+    }
     return (
         <div>
             <div>
@@ -10,7 +17,7 @@ export default function AnagramResultsSection({numVal, words, isScore}) {
             <div>
                 <ul>
                     {words.map((word, i) => (
-                        <li key={i}>{word}</li>
+                        <li key={getKey(word)}>{word}</li>
                     ))}
                 </ul>
             </div>

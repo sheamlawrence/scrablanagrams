@@ -8,12 +8,14 @@ export default function UserInput() {
     const [isScore, setIsScore] = useState(true)
     const [canSubmit, setCanSubmit] = useState(true)
     const [matchTiles, setMatchTiles] = useState('')
+    const [leftMatch, setLeftMatch] = useState(false)
+    const [rightMatch, setRightMatch] = useState(false)
 
     const submitInput = () => {
         console.log('user input for dispatch: ', tileInput)
-        setCanSubmit(false)
         dispatch({type: 'TILE_INPUT', payload: {input: tileInput, isScore: isScore,
-                boardTiles: boardTiles, matchTiles: matchTiles}})
+                boardTiles: boardTiles, matchTiles: matchTiles, leftMatch: leftMatch, rightMatch: rightMatch}})
+        setCanSubmit(false)
     }
 
     const handleType = (value) => {
@@ -39,20 +41,37 @@ export default function UserInput() {
         setIsScore(!value)
     }
 
+    const handleMatch = (value, isLeft) => {
+        setCanSubmit(true)
+        console.log('isLeft:',isLeft)
+        isLeft ? setLeftMatch(value) : setRightMatch(value)
+    }
+
     return (
         <div className='input-box'>
             <h2>Your Tiles:</h2>
-            <input type='search' maxLength={20} value={tileInput}
+            <input type='search' maxLength={18} value={tileInput}
                    onChange={(e) => handleType(e.target.value)}/>
             <h2>Board Tiles:</h2>
-            <input type='search' maxLength={10} value={boardTiles}
+            <input type='search' maxLength={7} value={boardTiles}
                    onChange={(e) => handleBoardTiles(e.target.value)}/>
             <h2>Match Tiles:</h2>
-            <input type='search' maxLength={7} value={matchTiles}
-                   onChange={(e) => handleMatchTiles(e.target.value)}/>
+            <div className='flex-panel'>
+                <div className='flex-panel-item'>
+                    <input type='checkbox' onChange={(e) => handleMatch(e.target.checked, true)}/>
+                </div>
+                <div className='flex-panel-item-large'>
+                    <input type='search' maxLength={10} value={matchTiles}
+                           onChange={(e) => handleMatchTiles(e.target.value)}/>
+                </div>
+                <div className='flex-panel-item'>
+                    <input type='checkbox' onChange={(e) => handleMatch(e.target.checked, false)}/>
+                </div>
+            </div>
+
             <div className='sub-input-box'>
                 <div className='sub-input'>
-                    <label>By Length</label>
+                    <label>Sort By Length</label>
                 </div>
                 <div className='sub-input'>
                     <input type='checkbox' onChange={(e) => handleGroupType(e.target.checked)}/>

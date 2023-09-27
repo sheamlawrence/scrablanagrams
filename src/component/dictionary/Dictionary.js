@@ -44,7 +44,7 @@ function initDictionary() {
     })
 }
 
-export function findAnagrams(word, boardTiles, matchTiles) {
+export function findAnagrams(word, boardTiles, matchTiles, leftMatch, rightMatch) {
 
     // Add boardTiles to our anagram word
     if (boardTiles && boardTiles.length > 0) {
@@ -53,34 +53,60 @@ export function findAnagrams(word, boardTiles, matchTiles) {
 
     const haveMatchTiles = matchTiles && matchTiles.length > 0
 
-    const findSubs = (str) => {
+    /**
+     * Standard bitmask subset algorithm to find all combinations.
+     * Add to result list only if there is a matching key in our wordMap
+     * @param str
+     * @param n
+     * @returns {*[]}
+     */
+    const findSubs = (str, n) => {
         const result = [];
-        for(let i = 1; i < Math.pow(2, str.length) - 1; i++)
-            result.push([...str].filter((_, pos) => (i >> pos) & 1).join(""));
-        return result;
-    }
-    let subs = findSubs(word)
-    let anagrams = []
-    subs.forEach((sub) => {
-        if (sub.length > 1) {
-            const subResult = wordMap[sortWord(sub)]
-            if (subResult) {
-                subResult.forEach((anagram) => {
-                    if (!anagrams.includes(anagram)) {
-                        haveMatchTiles ? (anagram.includes(matchTiles) && anagrams.push(anagram)) : anagrams.push(anagram)
-                    }
-                })
+        let strArr = str.split('')
+        for (let i = 0; i < (1 << n); i++) {
+            let sub = []
+            for (let j = 0; j < n; j++) {
+                if ((i & (1 << j)) !== 0) {
+                    sub.push(strArr[j])
+                }
+            }
+            let s = sub.join('')
+            if (s.length > 1 && wordMap[sortWord(s)]) {
+                result.push(s)
             }
         }
-    })
-    const fullWordResult = wordMap[sortWord(word)]
-    if (fullWordResult) {
-        fullWordResult.forEach((anagram) => {
+        return result;
+    }
+    let subs = findSubs(word, word.length)
+    let anagrams = []
+    subs.forEach((sub) => {
+        wordMap[sortWord(sub)].forEach((anagram) => {
             if (!anagrams.includes(anagram)) {
-                haveMatchTiles ? (anagram.includes(matchTiles) && anagrams.push(anagram)) : anagrams.push(anagram)
+                if (haveMatchTiles) {
+                    console.log('isLeft:',leftMatch,'isRight:',rightMatch,'matchTiles:',matchTiles)
+                    if (leftMatch && rightMatch) {
+                        if (anagram.startsWith(matchTiles) && anagram.endsWith(matchTiles)) {
+                            anagrams.push(anagram)
+                        }
+                    } else if (leftMatch) {
+                        if (anagram.startsWith(matchTiles)) {
+                            anagrams.push(anagram)
+                        }
+                    } else if (rightMatch) {
+                        if (anagram.endsWith(matchTiles)) {
+                            anagrams.push(anagram)
+                        }
+                    } else {
+                        if (anagram.includes(matchTiles)) {
+                            anagrams.push(anagram)
+                        }
+                    }
+                } else {
+                    anagrams.push(anagram)
+                }
             }
         })
-    }
+    })
     return anagrams.sort()
 }
 

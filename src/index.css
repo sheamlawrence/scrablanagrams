@@ -58,8 +58,9 @@ body {
 }
 
 .sub-input-box {
+  margin-top: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 .sub-input-box .sub-input {
@@ -131,4 +132,26 @@ button {
   border-radius: 10px;
   padding: 8px;
   cursor: pointer;
+  margin-top: 10px;
+}
+
+.flex-panel {
+  display: flex;
+  justify-content: left;
+}
+
+.flex-panel .flex-panel-item {
+  flex: 1;
+  padding: 10px;
+  margin-top:10px
+}
+
+.flex-panel .flex-panel-item-large {
+  flex: 90
+}
+
+.result-msg {
+  color: white;
+  font-size: 16px;
+  margin-top: 20px;
 }
