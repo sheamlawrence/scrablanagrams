@@ -21,6 +21,11 @@ body {
   background-repeat: unset;
 }
 
+input.largerCheckbox {
+  width: 20px;
+  height: 20px;
+}
+
 .loading {
   color: white;
   font-family: monospace;

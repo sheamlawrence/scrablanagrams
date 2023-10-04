@@ -7,6 +7,7 @@ import Dictionary from "./component/dictionary/Dictionary"
 
 const initialState = {
     isLoading: true,
+    hasSubmitted: false,
     tileInput: '',
     dictionary: {},
     isSortByScore: true,
@@ -48,6 +49,7 @@ function reducer(state, action) {
                 tileInput: input,
                 boardTiles: boardTiles,
                 matchTiles: matchTiles,
+                hasSubmitted: true,
                 isProcessing: true,
                 isSortByScore: action.payload.isScore,
                 leftMatch: action.payload.leftMatch,

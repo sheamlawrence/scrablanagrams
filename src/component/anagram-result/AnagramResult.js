@@ -53,7 +53,8 @@ export default function AnagramResult() {
                         ) : (
                             <ul>
                                 {keys.map((key, i) => (
-                                    <AnagramResultsSection lookupKey={key} results={results} isSortByScore={isSortByScore}/>
+                                    <AnagramResultsSection lookupKey={key} results={results}
+                                                           isSortByScore={isSortByScore}/>
                                 ))}
                             </ul>
                         )}
@@ -65,8 +66,15 @@ export default function AnagramResult() {
                     {state.isProcessing ? (
                         <Processing/>
                     ) : (
-                        <p>No results :(</p>
-                    )}
+                        <div>
+                            {state.hasSubmitted ? (
+                                <p>No results :(</p>
+                            ) : (
+                                <p>Please enter your tiles :)</p>
+                            )}
+                        </div>
+                    )
+                    }
                 </div>)
             }
         </div>

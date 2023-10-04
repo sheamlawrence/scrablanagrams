@@ -58,14 +58,14 @@ export default function UserInput() {
             <h2>Match Tiles:</h2>
             <div className='flex-panel'>
                 <div className='flex-panel-item'>
-                    <input type='checkbox' onChange={(e) => handleMatch(e.target.checked, true)}/>
+                    <input className='largerCheckbox' type='checkbox' onChange={(e) => handleMatch(e.target.checked, true)}/>
                 </div>
                 <div className='flex-panel-item-large'>
                     <input type='search' maxLength={10} value={matchTiles}
                            onChange={(e) => handleMatchTiles(e.target.value)}/>
                 </div>
                 <div className='flex-panel-item'>
-                    <input type='checkbox' onChange={(e) => handleMatch(e.target.checked, false)}/>
+                    <input className='largerCheckbox' type='checkbox' onChange={(e) => handleMatch(e.target.checked, false)}/>
                 </div>
             </div>
 
@@ -74,7 +74,7 @@ export default function UserInput() {
                     <label>Sort By Length</label>
                 </div>
                 <div className='sub-input'>
-                    <input type='checkbox' onChange={(e) => handleGroupType(e.target.checked)}/>
+                    <input className='largerCheckbox' type='checkbox' onChange={(e) => handleGroupType(e.target.checked)}/>
                 </div>
             </div>
             <button disabled={!canSubmit} onClick={submitInput}>Submit</button>
