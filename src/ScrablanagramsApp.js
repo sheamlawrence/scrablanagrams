@@ -14,7 +14,8 @@ const initialState = {
     matchTiles: '',
     anagramResult: [],
     leftMatch: false,
-    rightMatch: false
+    rightMatch: false,
+    isThinking: false
 }
 
 const AppContext = createContext()
@@ -25,6 +26,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 isLoading: action.payload
+            }
+        case 'DONE_PROCESSING' :
+            return {
+                ...state,
+                isProcessing: false
             }
         case 'CLEAR_RESULTS' :
             console.log('clear results...')
@@ -42,6 +48,7 @@ function reducer(state, action) {
                 tileInput: input,
                 boardTiles: boardTiles,
                 matchTiles: matchTiles,
+                isProcessing: true,
                 isSortByScore: action.payload.isScore,
                 leftMatch: action.payload.leftMatch,
                 rightMatch: action.payload.rightMatch

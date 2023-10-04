@@ -1,7 +1,8 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {AppContext} from '../../ScrablanagramsApp'
 import AnagramResultsSection from "./AnagramResultsSection";
 import {findAnagrams} from "../dictionary/Dictionary";
+import Processing from "./Processing";
 
 const scoreMap = {
     'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2,
@@ -10,16 +11,19 @@ const scoreMap = {
     'Z': 10
 }
 
-let noDiceMsg = ''
-let results = {}
-let keys = []
-let count = 0
+let count = 0;
+let results = {};
+let keys = [];
 
 const handleInput = (tileInput, boardTiles, matchTiles, isSortByScore, leftMatch, rightMatch) => {
     const result = findAnagrams(tileInput, boardTiles, matchTiles, leftMatch, rightMatch)
     count = result.length
     results = parseResult(tileInput, result, isSortByScore)
     keys = Object.keys(results).sort((a, b) => b - a)
+}
+
+const isDone = (dispatch) => {
+    dispatch({type: 'DONE_PROCESSING'})
 }
 
 export default function AnagramResult() {
@@ -30,32 +34,46 @@ export default function AnagramResult() {
     const matchTiles = state.matchTiles
     const leftMatch = state.leftMatch
     const rightMatch = state.rightMatch
-    handleInput(tileInput, boardTiles, matchTiles, isSortByScore, leftMatch, rightMatch)
 
-    if (keys.length > 0) {
-        return (
-            <div>
-                <div className='result-msg'>
-                    {getMessage(count, matchTiles, leftMatch, rightMatch)}
+    useEffect(() => {
+        handleInput(tileInput, boardTiles, matchTiles, isSortByScore, leftMatch, rightMatch)
+        isDone(dispatch)
+    })
+
+    return (
+        <div>
+            {keys.length > 0 ? (
+                <div>
+                    <div className='result-msg'>
+                        {getSummaryMessage(count, matchTiles, leftMatch, rightMatch)}
+                    </div>
+                    <div className='results-list'>
+                        {state.isProcessing ? (
+                            <Processing/>
+                        ) : (
+                            <ul>
+                                {keys.map((key, i) => (
+                                    <AnagramResultsSection lookupKey={key} results={results} isSortByScore={isSortByScore}/>
+                                ))}
+                            </ul>
+                        )}
+
+                    </div>
                 </div>
+            ) : (
                 <div className='results-list'>
-                    <ul>
-                        {keys.map((key, i) => (
-                            <AnagramResultsSection numVal={key} words={results[key]} isScore={isSortByScore}/>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        )
-    } else {
-        return (
-            <div className='results-list'>
-                <p>{noDiceMsg}</p>
-            </div>)
-    }
+                    {state.isProcessing ? (
+                        <Processing/>
+                    ) : (
+                        <p>No results :(</p>
+                    )}
+                </div>)
+            }
+        </div>
+    )
 }
 
-function getMessage(count, matchTiles, leftMatch, rightMatch) {
+function getSummaryMessage(count, matchTiles, leftMatch, rightMatch) {
     let msg = count + ' results!\n'
     if (matchTiles && matchTiles.length > 0 && count > 0) {
         msg += 'Match "' + matchTiles + '" '
@@ -75,10 +93,6 @@ function parseResult(input, result, isSortByScore) {
                 output[numVal] = []
             }
             output[numVal].push(word)
-        }
-    } else {
-        if (input.length > 0) {
-            noDiceMsg = "No Results found :("
         }
     }
 
