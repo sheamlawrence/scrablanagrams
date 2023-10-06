@@ -43,7 +43,6 @@ export default function UserInput() {
 
     const handleMatch = (value, isLeft) => {
         setCanSubmit(true)
-        console.log('isLeft:',isLeft)
         isLeft ? setLeftMatch(value) : setRightMatch(value)
     }
 

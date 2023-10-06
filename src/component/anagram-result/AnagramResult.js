@@ -28,24 +28,18 @@ const isDone = (dispatch) => {
 
 export default function AnagramResult() {
     const {state, dispatch} = useContext(AppContext)
-    const isSortByScore = state.isSortByScore
-    const tileInput = state.tileInput
-    const boardTiles = state.boardTiles
-    const matchTiles = state.matchTiles
-    const leftMatch = state.leftMatch
-    const rightMatch = state.rightMatch
 
     useEffect(() => {
-        handleInput(tileInput, boardTiles, matchTiles, isSortByScore, leftMatch, rightMatch)
+        handleInput(state.tileInput, state.boardTiles, state.matchTiles, state.isSortByScore, state.leftMatch, state.rightMatch)
         isDone(dispatch)
-    })
+    },[state.tileInput, state.boardTiles, state.matchTiles, state.isSortByScore, state.leftMatch, state.rightMatch, dispatch])
 
     return (
         <div>
             {keys.length > 0 ? (
                 <div>
                     <div className='result-msg'>
-                        {getSummaryMessage(count, matchTiles, leftMatch, rightMatch)}
+                        {getSummaryMessage(count, state.matchTiles, state.leftMatch, state.rightMatch)}
                     </div>
                     <div className='results-list'>
                         {state.isProcessing ? (
@@ -54,7 +48,7 @@ export default function AnagramResult() {
                             <ul>
                                 {keys.map((key, i) => (
                                     <AnagramResultsSection lookupKey={key} results={results}
-                                                           isSortByScore={isSortByScore}/>
+                                                           isSortByScore={state.isSortByScore}/>
                                 ))}
                             </ul>
                         )}

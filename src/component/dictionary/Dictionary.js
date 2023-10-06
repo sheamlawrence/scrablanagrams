@@ -83,7 +83,6 @@ export function findAnagrams(word, boardTiles, matchTiles, leftMatch, rightMatch
         wordMap[sortWord(sub)].forEach((anagram) => {
             if (!anagrams.includes(anagram)) {
                 if (haveMatchTiles) {
-                    console.log('isLeft:',leftMatch,'isRight:',rightMatch,'matchTiles:',matchTiles)
                     if (leftMatch && rightMatch) {
                         if (anagram.startsWith(matchTiles) && anagram.endsWith(matchTiles)) {
                             anagrams.push(anagram)
